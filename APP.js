@@ -107,6 +107,50 @@ APP.readModule = function(Module) {
 };
 
 /**
+ * Call APP.init method through a given namespace string
+ * @param  {String} namespace Module's namespace
+ * @return {Object}           null
+ */
+APP.initModuleByNamespace = function(namespace) {
+	var argumentsLength, iArguments, argumentsArray;
+
+	argumentsArray = [];
+
+	for(iArguments = 0; iArguments < argumentsLength; iArguments++) {
+		argumentsArray.push(APP.getByNamespace(arguments[iArguments]));
+	}
+
+	APP.init.apply(this, argumentsArray);
+}
+
+/**
+ * Return an object by a given namespace
+ * @param  {String} namespace Target's namespace. Example: APP.Audio._url
+ * @return {Object}           Namespace's Target
+ */
+APP.getByNamespace = function(namespace) {
+	var spaces, spacesLength, iSpace, space, target;
+
+		spaces = namespace.split(".");
+
+		if(spaces.shift() != "APP") return null;
+		
+		spacesLength = spaces.length;
+
+		target = this;
+
+	for(iSpace = 0; iSpace < spacesLength; iSpace++) {
+		space = spaces[iSpace];
+
+		if(target.hasOwnProperty(space)) {
+			target = target[space];
+		}
+	}
+
+	return target;
+}
+
+/**
  * Invoke a method by it's namespace
  * @param  String nameSpace Method's namespace
  * @param  Array params		Array of parameters
