@@ -1,0 +1,9 @@
+/* -----------------------
+APP-MAIN
+------------------------ */
+.app-main{
+	display:none;
+}
+.app-main.active{
+	display:block;
+}
